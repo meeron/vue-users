@@ -3,8 +3,10 @@ import { GET_USERS, INIT_NEW_USER, SAVE_USER, DELETE_USER } from './mutation-typ
 
 const state = {
   users: [],
-  isAdding: false,
-  newUser: null
+  addUser: {
+    isAdding: false,
+    newUser: null
+  }
 }
 
 const actions = {
@@ -18,7 +20,7 @@ const actions = {
   },
   save({ commit, state }) {
     const user = {
-      ...state.newUser,
+      ...state.addUser.newUser,
       id: Date.now()
     };
 
@@ -38,13 +40,16 @@ const actions = {
   }
 }
 
+const getters = {
+}
+
 const mutations = {
   [GET_USERS](state, users) {
     state.users = users;
   },
   [INIT_NEW_USER](state, isAdding) {
-    state.newUser = { name: '', email: '' };
-    state.isAdding = isAdding; 
+    state.addUser.newUser = { name: '', email: '' };
+    state.addUser.isAdding = isAdding; 
   },
   [SAVE_USER](state, user) {
     state.users.push(user);
@@ -57,5 +62,6 @@ const mutations = {
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 }
