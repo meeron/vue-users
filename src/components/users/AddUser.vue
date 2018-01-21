@@ -1,8 +1,8 @@
 <template>
-  <button v-if="!isAdding" v-on:click="createNewUser" class="btn-floating btn-small waves-effect waves-light blue">
+  <button v-if="!isAdding" @click="createNewUser" class="btn-floating btn-small waves-effect waves-light blue">
     <i class="material-icons">add</i>
   </button>
-  <form novalidate class="col s5" v-else v-on:submit.prevent="saveUser">
+  <form novalidate class="col s5" v-else @submit.prevent="saveUser">
     <div class="row">
       <div class="input-field">
         <input v-validate="'required'" v-model="newUser.name" id="name" type="text" class="validate">
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="row">
-      <input type="reset" value="Cancel" class="btn btn-small" v-on:click="cancelEdit" />
+      <input type="reset" value="Cancel" class="btn btn-small" @click="cancelEdit" />
       <button class="btn waves-effect waves-light" type="submit">
         Save
         <i class="material-icons right">send</i>
