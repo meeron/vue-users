@@ -11,13 +11,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import AddUser from '@/components/users/AddUser'
 import UsersList from '@/components/users/UsersList'
 
 export default {
   name: 'Users',
   mounted () {
-    this.$store.dispatch('getUsers');
+    this.getUsers();
+  },
+  methods: {
+    ...mapActions('users', ['getUsers'])
   },
   components: { AddUser, UsersList }
 }

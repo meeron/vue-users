@@ -12,7 +12,7 @@
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
         <td>
-          <button @click="remove(user)" class="btn-floating btn-small waves-effect waves-light red">
+          <button @click="deleteUser(user)" class="btn-floating btn-small waves-effect waves-light red">
             <i class="material-icons">remove</i>
           </button>
         </td>
@@ -22,15 +22,20 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'UsersList',
   computed: {
-    users() { return this.$store.state.users.users }
+    ...mapState('users', {
+      users: state => state.users
+    })
   },
   methods: {
-    remove(user) {
+    ...mapActions('users', ['remove']),
+    deleteUser(user) {
       if (confirm(`Are you sure you want to delete user '${user.name}'`)) {
-        this.$store.dispatch('remove', user.id);
+        this.remove(user.id);
       }
     }    
   }

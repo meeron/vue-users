@@ -1,12 +1,8 @@
 import api from '../tools/api'
-import { GET_USERS, INIT_NEW_USER, SAVE_USER, DELETE_USER } from './mutation-types'
+import { GET_USERS, SAVE_USER, DELETE_USER } from './mutation-types'
 
 const state = {
-  users: [],
-  addUser: {
-    isAdding: false,
-    newUser: null
-  }
+  users: []
 }
 
 const actions = {
@@ -15,19 +11,21 @@ const actions = {
       commit(GET_USERS, users);
     });
   },
-  createNewUser({ commit }, isAdding) {
-    commit(INIT_NEW_USER, isAdding);
-  },
-  save({ commit, state }) {
+
+  save({ commit, state }, newUser) {
     const user = {
-      ...state.addUser.newUser,
+      ...newUser,
       id: Date.now()
     };
 
-    api.saveUser(user).then(user => {
-      commit(SAVE_USER, user);
+    return api.saveUser(user).then(user => {
+      return new Promise(resolve => {
+        commit(SAVE_USER, user);
+        resolve();
+      });
     });
   },
+
   remove({ commit, state }, id) {
     api.deleteUser(id).then(result => {
       if (result) {
@@ -40,28 +38,23 @@ const actions = {
   }
 }
 
-const getters = {
-}
-
 const mutations = {
   [GET_USERS](state, users) {
     state.users = users;
   },
-  [INIT_NEW_USER](state, isAdding) {
-    state.addUser.newUser = { name: '', email: '' };
-    state.addUser.isAdding = isAdding; 
-  },
+
   [SAVE_USER](state, user) {
     state.users.push(user);
   },
+
   [DELETE_USER](state, index) {
     state.users.splice(index, 1);
   }
 }
 
 export default {
+  namespaced: true,
   state,
   mutations,
-  actions,
-  getters
+  actions
 }
