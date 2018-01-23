@@ -1,3 +1,10 @@
+function randomTimeout() {
+  const min = 1500;
+  const max = 3000;
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 class Api {
 
   getUsers() {
@@ -12,7 +19,7 @@ class Api {
       users.push(user);
       localStorage.setItem("users", JSON.stringify(users));
 
-      resolve(user);
+      setTimeout(() => resolve(user), randomTimeout());
     });
   }
 

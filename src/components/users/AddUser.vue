@@ -15,7 +15,8 @@
         <label for="userEmail">Email</label>
       </div>
     </div>
-    <div class="row">
+    <Preloader :isLoading="loading" />
+    <div class="row" v-show="!loading">
       <input type="reset" value="Cancel" class="btn btn-small" @click="cancelEdit" />
       <button class="btn waves-effect waves-light" type="submit">
         Save
@@ -27,6 +28,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Preloader from '@/components/Preloader'
 
 export default {
   name: 'AddUser',
@@ -34,7 +36,8 @@ export default {
     return {
       isAdding: false,
       userName: '',
-      userEmail: ''
+      userEmail: '',
+      loading: false
     };
   },
   methods: {
@@ -50,12 +53,17 @@ export default {
     saveUser() {
       this.$validator.validateAll().then((result) => {
         if (result) {
+          this.loading = true;
           this.save({ name: this.userName, email: this.userEmail})
-            .then(() => this.cancelEdit());
+            .then(() => {
+              this.loading = false;
+              this.cancelEdit();
+            });
         }
       });
     }    
-  }
+  },
+  components: { Preloader }
 }
 </script>
 
