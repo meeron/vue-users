@@ -4,8 +4,8 @@
     <div class="row">
       <AddUser />
     </div>
-    <div v-if="isLoading" class="row">
-      <Preloader :isLoading="isLoading" type="linear" />
+    <div v-if="!fetched" class="row">
+      <Preloader :isLoading="!fetched" type="linear" />
     </div>
     <div v-else class="row">
       <UsersList />
@@ -14,21 +14,20 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import AddUser from '@/components/users/AddUser'
 import UsersList from '@/components/users/UsersList'
 import Preloader from '@/components/Preloader'
 
 export default {
   name: 'Users',
-  data() {
-    return { isLoading: false }
+  computed: {
+    ...mapState('users', {
+      fetched: state => state.fetched
+    })
   },
   mounted () {
-    this.isLoading = true;
-    this.getUsers().then(() => {
-      this.isLoading = false;
-    });
+    this.getUsers();
   },
   methods: {
     ...mapActions('users', ['getUsers'])

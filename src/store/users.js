@@ -2,16 +2,14 @@ import api from '../tools/api'
 import { GET_USERS, SAVE_USER, DELETE_USER } from './mutation-types'
 
 const state = {
-  users: []
+  users: [],
+  fetched: false
 }
 
 const actions = {
-  getUsers({ commit }) {
-    return api.getUsers().then(users => {
-      return new Promise(resolve => {
-        commit(GET_USERS, users);
-        resolve();
-      });
+  getUsers({ commit, state }) {
+    !state.fetched && api.getUsers().then(users => {
+      commit(GET_USERS, users);
     });
   },
 
@@ -44,6 +42,7 @@ const actions = {
 const mutations = {
   [GET_USERS](state, users) {
     state.users = users;
+    state.fetched = true;
   },
 
   [SAVE_USER](state, user) {
