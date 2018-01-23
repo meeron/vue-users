@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3>Groups</h3>
+    <div class="row"><AddGroup /></div>
     <table>
       <thead>
         <tr>
@@ -19,16 +20,23 @@
 </template>
 
 <script>
+import AddGroup from '@/components/groups/AddGroup'
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'Groups',
-  data() {
-    return {
-      groups: [
-        { id: 1, name: "Group 1", usersCount: 1 },
-        { id: 2, name: "Group 2", usersCount: 2 }
-      ]
-    };
-  }
+  mounted () {
+    this.getGroups();
+  },
+  computed: {
+    ...mapState('groups', {
+      groups: state => state.groups
+    })
+  },
+  methods: {
+    ...mapActions('groups', ['getGroups'])
+  },
+  components: { AddGroup }
 }
 </script>
 
