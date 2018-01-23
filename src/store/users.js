@@ -7,8 +7,11 @@ const state = {
 
 const actions = {
   getUsers({ commit }) {
-    api.getUsers().then(users => {
-      commit(GET_USERS, users);
+    return api.getUsers().then(users => {
+      return new Promise(resolve => {
+        commit(GET_USERS, users);
+        resolve();
+      });
     });
   },
 

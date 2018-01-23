@@ -9,7 +9,7 @@ class Api {
 
   getUsers() {
     return new Promise((resolve) => {
-      resolve(JSON.parse(localStorage.getItem("users") || "[]"));
+      setTimeout(() => resolve(JSON.parse(localStorage.getItem("users") || "[]")), randomTimeout());
     });
   }
 
