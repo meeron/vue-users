@@ -2,7 +2,8 @@ import api from '../tools/api'
 import { ADD_GROUP, GET_GROUPS } from './mutation-types'
 
 const state = {
-  groups: []
+  groups: [],
+  fetched: false
 }
 
 const actions = {
@@ -23,6 +24,7 @@ const mutations = {
 
   [GET_GROUPS](state, groups) {
     state.groups = groups;
+    state.fetched = true;
   }
 }
 

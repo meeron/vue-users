@@ -49,7 +49,7 @@ class Api {
 
   getGroups() {
     return new Promise(resolve => {
-      resolve(JSON.parse(localStorage.getItem("groups") || "[]"));
+      setTimeout(() => resolve(JSON.parse(localStorage.getItem("groups") || "[]")), randomTimeout());
     });
   }
 }
