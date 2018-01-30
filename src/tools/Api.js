@@ -52,6 +52,22 @@ class Api {
       setTimeout(() => resolve(JSON.parse(localStorage.getItem("groups") || "[]")), randomTimeout());
     });
   }
+
+  deleteGroup(id) {
+    return new Promise(resolve => {
+      let groups = JSON.parse(localStorage.getItem("groups"));
+      const index = groups.findIndex(grp => grp.id === id);
+      if (index === -1) {
+        resolve(false);
+      } else {
+        setTimeout(() => {
+          groups.splice(index, 1);
+          localStorage.setItem("groups", JSON.stringify(groups));
+          resolve(true);
+        }, randomTimeout());
+      }
+    });
+  }
 }
 
 const api = new Api();
