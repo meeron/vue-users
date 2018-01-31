@@ -12,7 +12,8 @@
           <td>{{group.name}}</td>
           <td>{{group.usersCount}}</td>
           <td>
-            <button @click="deleteUser(group)" class="btn-floating btn-small waves-effect waves-light red">
+            <Preloader :isLoading="group.deleting" />
+            <button v-if="!group.deleting" @click="deleteUser(group)" class="btn-floating btn-small waves-effect waves-light red">
               <i class="material-icons">remove</i>
             </button>
           </td>
@@ -23,6 +24,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Preloader from '@/components/Preloader'
 
 export default {
   name: 'GroupsList',
@@ -38,7 +40,8 @@ export default {
         this.remove(group.id);
       }
     }
-  }
+  },
+  components: { Preloader }
 }
 </script>
 
